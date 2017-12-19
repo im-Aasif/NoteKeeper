@@ -25,7 +25,7 @@ public class NoteActivity extends AppCompatActivity {
     private static final String ORIGINAL_NOTE_cID = "com.jwhh.jim.notekeeper.ORIGINAL_NOTE_cID";
     private static final String ORIGINAL_NOTE_TITLE = "com.jwhh.jim.notekeeper.ORIGINAL_NOTE_TITLE";
     private static final String ORIGINAL_NOTE_TEXT = "com.jwhh.jim.notekeeper.ORIGINAL_NOTE_TEXT";
-    private static final String TAG = NoteActivity.class.getSimpleName();
+    private final String TAG = getClass().getSimpleName();
 
     private static final int POSITION_NOT_SET = -1;
     private static final int SHOW_CAMERA = 23;
@@ -127,12 +127,12 @@ public class NoteActivity extends AppCompatActivity {
 
     private void  readDisplayStateValues() {
         Intent intent = getIntent();
-        int position = intent.getIntExtra(NOTE_POSITION, POSITION_NOT_SET);
-        mIsNewNote = position == POSITION_NOT_SET;
+        mNewPosition = intent.getIntExtra(NOTE_POSITION, POSITION_NOT_SET);
+        mIsNewNote = mNewPosition== POSITION_NOT_SET;
         if (mIsNewNote) {
             createNewNote();
         } else {
-            mNote = DataManager.getInstance().getNotes().get(position);
+            mNote = DataManager.getInstance().getNotes().get(mNewPosition);
         }
 
     }
@@ -141,7 +141,6 @@ public class NoteActivity extends AppCompatActivity {
         DataManager dm = DataManager.getInstance();
         mNewPosition = dm.createNewNote();
         mNote = dm.getNotes().get(mNewPosition);
-
     }
  
     @Override
@@ -165,9 +164,35 @@ public class NoteActivity extends AppCompatActivity {
         } else if (id == R.id.action_cancel) {
             mIsCancelling = true;
             finish();
+        } else if (id == R.id.action_next) {
+            moveNext();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_next);
+        if(mIsNewNote) {
+            item.setVisible(!mIsNewNote);
+        }
+
+        int lastIndex = DataManager.getInstance().getNotes().size() - 1;
+        item.setEnabled(mNewPosition < lastIndex);
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void moveNext() {
+        saveNote();
+
+        mNewPosition+=1;
+        mNote = DataManager.getInstance().getNotes().get(mNewPosition);
+
+        saveOriginalStateValues();
+        displayNote(mSpinnerCourses, mTextNoteTitle, mTextNoteText);
+        invalidateOptionsMenu();
     }
 
     private void sendEmail() {
@@ -209,7 +234,6 @@ public class NoteActivity extends AppCompatActivity {
         } else {
             saveNote();
         }
-
     }
 
     private void storePreviousStateValues() {
@@ -223,6 +247,5 @@ public class NoteActivity extends AppCompatActivity {
         mNote.setCourse((CourseInfo) mSpinnerCourses.getSelectedItem());
         mNote.setText(mTextNoteText.getText().toString());
         mNote.setTitle(mTextNoteTitle.getText().toString());
-
     }
 }
