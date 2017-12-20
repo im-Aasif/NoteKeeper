@@ -28,7 +28,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Note title"
+        android:hint="@string/note_title"
         android:inputType="textMultiLine"
         app:layout_constraintLeft_toLeftOf="@+id/spinner_courses"
         app:layout_constraintRight_toRightOf="@+id/spinner_courses"
@@ -42,7 +42,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Note text"
+        android:hint="@string/note_text"
         android:inputType="textMultiLine"
         app:layout_constraintLeft_toLeftOf="@+id/text_note_title"
         app:layout_constraintRight_toRightOf="@+id/text_note_title"
@@ -55,7 +55,8 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="10dp"
-        android:text="Open Camera"
+        android:visibility="gone"
+        android:text="@string/open_camera"
         app:layout_constraintLeft_toLeftOf="@id/text_note_text"
         app:layout_constraintRight_toRightOf="@id/text_note_text"
         app:layout_constraintTop_toBottomOf="@id/text_note_text" />
@@ -68,7 +69,9 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="@id/btn_attach"
         app:layout_constraintRight_toRightOf="@id/btn_attach"
-        app:layout_constraintTop_toBottomOf="@id/btn_attach" />
+        app:layout_constraintTop_toBottomOf="@id/btn_attach"
+        android:contentDescription="@string/content_desc" />
 </android.support.constraint.ConstraintLayout>

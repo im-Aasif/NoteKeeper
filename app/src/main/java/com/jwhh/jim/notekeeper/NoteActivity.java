@@ -56,7 +56,7 @@ public class NoteActivity extends AppCompatActivity {
         mSpinnerCourses.setAdapter(adapterCourses);
 
         readDisplayStateValues();
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             saveOriginalStateValues();
         } else {
             restoreOriginalStateValue(savedInstanceState);
@@ -91,7 +91,7 @@ public class NoteActivity extends AppCompatActivity {
 
 
     private void saveOriginalStateValues() {
-        if(mIsNewNote)
+        if (mIsNewNote)
             return;
 
         mOriginalNoteCourseId = mNote.getCourse().getCourseId();
@@ -125,10 +125,10 @@ public class NoteActivity extends AppCompatActivity {
         textNoteText.setText(mNote.getText());
     }
 
-    private void  readDisplayStateValues() {
+    private void readDisplayStateValues() {
         Intent intent = getIntent();
         mNewPosition = intent.getIntExtra(NOTE_POSITION, POSITION_NOT_SET);
-        mIsNewNote = mNewPosition== POSITION_NOT_SET;
+        mIsNewNote = mNewPosition == POSITION_NOT_SET;
         if (mIsNewNote) {
             createNewNote();
         } else {
@@ -142,7 +142,7 @@ public class NoteActivity extends AppCompatActivity {
         mNewPosition = dm.createNewNote();
         mNote = dm.getNotes().get(mNewPosition);
     }
- 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -174,7 +174,7 @@ public class NoteActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.action_next);
-        if(mIsNewNote) {
+        if (mIsNewNote) {
             item.setVisible(!mIsNewNote);
         }
 
@@ -187,7 +187,7 @@ public class NoteActivity extends AppCompatActivity {
     private void moveNext() {
         saveNote();
 
-        mNewPosition+=1;
+        mNewPosition += 1;
         mNote = DataManager.getInstance().getNotes().get(mNewPosition);
 
         saveOriginalStateValues();
@@ -225,8 +225,8 @@ public class NoteActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(mIsCancelling) {
-            if(mIsNewNote) {
+        if (mIsCancelling) {
+            if (mIsNewNote) {
                 DataManager.getInstance().removeNote(mNewPosition);
             } else {
                 storePreviousStateValues();

@@ -4,4 +4,22 @@
     <string name="title_activity_note">Edit Note</string>
     <string name="action_send_mail">Send as E-mail</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_next">Next</string>
+    <string name="title_activity_main">NoteKeeper</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="open_camera">Open Camera</string>
+    <string name="note_text">Note text</string>
+    <string name="content_desc">Describe image</string>
+    <string name="note_title">Note title</string>
+    <string name="nav_send_message">Send</string>
+    <string name="nav_send_alert">Sending...</string>
+    <string name="nav_share_alert">Sharing...</string>
 </resources>
