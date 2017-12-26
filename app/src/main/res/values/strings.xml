@@ -22,4 +22,18 @@
     <string name="nav_send_message">Send</string>
     <string name="nav_send_alert">Sending...</string>
     <string name="nav_share_alert">Sharing...</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="url_action">https://www.google.co.in</string>
+    <string name="text_ringtone">Select a ringtone</string>
+    <string name="key_display_name">key_display_name</string>
+    <string name="default_display_name">Your name</string>
+    <string name="title_display_name">Display Name</string>
+    <string name="title_social_network">Favourite social network</string>
+    <string name="key_email">key_email</string>
+    <string name="default_email">Your email address</string>
+    <string name="title_email">Email Address</string>
+    <string name="key_social_network">key_social_network</string>
+    <string name="summary_social_network">Your favourite social network</string>
+    <string name="key_version">key_version</string>
+
 </resources>
