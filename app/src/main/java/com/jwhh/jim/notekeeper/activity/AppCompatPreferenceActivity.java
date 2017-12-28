@@ -1,4 +1,4 @@
-package com.jwhh.jim.notekeeper;
+package com.jwhh.jim.notekeeper.activity;
 
 import android.content.res.Configuration;
 import android.os.PersistableBundle;

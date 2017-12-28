@@ -1,4 +1,4 @@
-package com.jwhh.jim.notekeeper;
+package com.jwhh.jim.notekeeper.adapter;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;
@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.jwhh.jim.notekeeper.R;
+import com.jwhh.jim.notekeeper.model.CourseInfo;
 
 import java.util.List;
 
@@ -21,7 +24,7 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerAd
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
 
-    CourseRecyclerAdapter(Context context, List<CourseInfo> courses) {
+    public CourseRecyclerAdapter(Context context, List<CourseInfo> courses) {
         mCourses = courses;
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);

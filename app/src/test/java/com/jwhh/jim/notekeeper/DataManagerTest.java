@@ -1,5 +1,9 @@
 package com.jwhh.jim.notekeeper;
 
+import com.jwhh.jim.notekeeper.model.CourseInfo;
+import com.jwhh.jim.notekeeper.db.DataManager;
+import com.jwhh.jim.notekeeper.model.NoteInfo;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

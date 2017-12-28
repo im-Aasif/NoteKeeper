@@ -35,5 +35,6 @@
     <string name="key_social_network">key_social_network</string>
     <string name="summary_social_network">Your favourite social network</string>
     <string name="key_version">key_version</string>
+    <string name="action_delete">Delete Note</string>
 
 </resources>

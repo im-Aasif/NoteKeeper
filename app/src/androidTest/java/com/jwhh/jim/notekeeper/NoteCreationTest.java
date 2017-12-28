@@ -3,6 +3,11 @@ package com.jwhh.jim.notekeeper;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.jwhh.jim.notekeeper.activity.NoteListActivity;
+import com.jwhh.jim.notekeeper.model.CourseInfo;
+import com.jwhh.jim.notekeeper.db.DataManager;
+import com.jwhh.jim.notekeeper.model.NoteInfo;
+
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
