@@ -147,7 +147,6 @@ public class NoteKeeperProvider extends ContentProvider {
                    NoteInfoEntry.getQName(projection[idx]) : projection[idx];
         }
 
-
         String tablesWithJoin = NoteInfoEntry.TABLE_NAME + " JOIN " +
                 CourseInfoEntry.TABLE_NAME + " ON " +
                 NoteInfoEntry.getQName(NoteInfoEntry.COLUMN_COURSE_ID) + " = " +

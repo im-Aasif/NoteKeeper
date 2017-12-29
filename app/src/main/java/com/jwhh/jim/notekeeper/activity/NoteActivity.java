@@ -267,9 +267,18 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
             mIsCancelling = true;
             mIsNewNote = true;
             finish();
+        } else if (id == R.id.action_set_reminder) {
+            showReminderNotification();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showReminderNotification() {
+        String noteTitle = mTextNoteTitle.getText().toString();
+        String noteText = mTextNoteText.getText().toString();
+        int id = (int) ContentUris.parseId(mNoteUri);
+        NoteReminderNotification.notify(this, noteTitle, noteText, id);
     }
 
     @Override
