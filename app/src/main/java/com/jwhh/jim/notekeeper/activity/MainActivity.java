@@ -1,6 +1,9 @@
 package com.jwhh.jim.notekeeper.activity;
 
 import android.app.LoaderManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -8,6 +11,8 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -27,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.jwhh.jim.notekeeper.BuildConfig;
 import com.jwhh.jim.notekeeper.R;
 import com.jwhh.jim.notekeeper.adapter.CourseRecyclerAdapter;
 import com.jwhh.jim.notekeeper.adapter.NoteRecyclerAdapter;
@@ -35,11 +41,15 @@ import com.jwhh.jim.notekeeper.db.NoteKeeperDatabaseContract.NoteInfoEntry;
 import com.jwhh.jim.notekeeper.db.NoteKeeperOpenHelper;
 import com.jwhh.jim.notekeeper.model.CourseInfo;
 import com.jwhh.jim.notekeeper.provider.NoteKeeperProviderContract.Notes;
+import com.jwhh.jim.notekeeper.service.NoteUploaderJobService;
+import com.jwhh.jim.notekeeper.service.NotesBackup;
+import com.jwhh.jim.notekeeper.service.NotesBackupService;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
     public static final int LOADER_NOTES = 0;
+    public static final int NOTE_UPLOADER_JOB_ID = 1;
     private NoteRecyclerAdapter mNoteRecyclerAdapter;
     private DrawerLayout mDrawerLayout;
     private RecyclerView mRecyclerView;
@@ -56,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        enableStrictMode();
 
         mDbOpenHelper = new NoteKeeperOpenHelper(this);
 
@@ -79,6 +91,17 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         //    addMenuToNavView();
 
         initializeDisplayContent();
+    }
+
+    private void enableStrictMode() {
+        if(BuildConfig.DEBUG) {
+            StrictMode.ThreadPolicy policy =
+                    new StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build();
+            StrictMode.setThreadPolicy(policy);
+        }
     }
 
     @Override
@@ -142,6 +165,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 //        loadNotes();
         getLoaderManager().restartLoader(LOADER_NOTES, null, this);
         updateNavHeader();
+
+
     }
 
     private void loadNotes() {
@@ -196,9 +221,36 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
+        } else if(id == R.id.action_backup_notes) {
+            backupNotes();
+        } else if(id == R.id.action_upload_notes) {
+            scheduleNotesUpload();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void scheduleNotesUpload() {
+        PersistableBundle extras = new PersistableBundle();
+        extras.putString(NoteUploaderJobService.EXTRA_DATA_URI, Notes.CONTENT_URI.toString());
+
+        ComponentName componentName = new ComponentName(this, NoteUploaderJobService.class);
+        JobInfo jobInfo =
+                new JobInfo.Builder(NOTE_UPLOADER_JOB_ID, componentName)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setExtras(extras)
+                .build();
+
+        JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        if (jobScheduler != null) {
+            jobScheduler.schedule(jobInfo);
+        }
+    }
+
+    private void backupNotes() {
+        Intent intent = new Intent(MainActivity.this, NotesBackupService.class);
+        intent.putExtra(NotesBackupService.EXTRA_COURSE_ID, NotesBackup.ALL_COURSES);
+        startService(intent);
     }
 
     @Override

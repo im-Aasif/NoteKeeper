@@ -34,6 +34,7 @@ import com.jwhh.jim.notekeeper.model.CourseInfo;
 import com.jwhh.jim.notekeeper.model.NoteInfo;
 import com.jwhh.jim.notekeeper.provider.NoteKeeperProviderContract.Courses;
 import com.jwhh.jim.notekeeper.provider.NoteKeeperProviderContract.Notes;
+import com.jwhh.jim.notekeeper.ui.NoteReminderNotification;
 
 public class NoteActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String NOTE_ID = "com.jwhh.jim.notekeeper.NOTE_ID";

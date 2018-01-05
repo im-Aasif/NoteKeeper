@@ -47,6 +47,15 @@
             android:authorities="${applicationId}.provider"
             android:enabled="true"
             android:exported="true" />
+
+        <service
+            android:name=".service.NotesBackupService"
+            android:exported="true" />
+        <service
+            android:name=".service.NoteUploaderJobService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

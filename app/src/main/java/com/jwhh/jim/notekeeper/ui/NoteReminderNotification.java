@@ -1,4 +1,4 @@
-package com.jwhh.jim.notekeeper.activity;
+package com.jwhh.jim.notekeeper.ui;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -16,6 +16,10 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 import com.jwhh.jim.notekeeper.R;
+import com.jwhh.jim.notekeeper.activity.MainActivity;
+import com.jwhh.jim.notekeeper.activity.NoteActivity;
+import com.jwhh.jim.notekeeper.service.NotesBackup;
+import com.jwhh.jim.notekeeper.service.NotesBackupService;
 
 /**
  * Helper class for showing and canceling note reminder
@@ -55,6 +59,9 @@ public class NoteReminderNotification {
 
         Intent intent = new Intent(context, NoteActivity.class);
         intent.putExtra(NoteActivity.NOTE_ID, noteId);
+
+        Intent backupIntent = new Intent(context, NotesBackupService.class);
+        backupIntent.putExtra(NotesBackupService.EXTRA_COURSE_ID,NotesBackup.ALL_COURSES);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String stringValue = preferences.getString(context.getString(R.string.key_notifications_new_message_ringtone), "");
@@ -114,11 +121,22 @@ public class NoteReminderNotification {
                                 intent,
                                 PendingIntent.FLAG_UPDATE_CURRENT))
 
-                .addAction(R.drawable.ic_assignment_black_24dp, "View all notes",
+                .addAction(
+                        0,
+                        "View all notes",
                         PendingIntent.getActivity(
                                 context,
                                 0,
                                 new Intent(context, MainActivity.class),
+                                PendingIntent.FLAG_UPDATE_CURRENT))
+
+                .addAction(
+                        0,
+                        "Backup Notes",
+                        PendingIntent.getService(
+                                context,
+                                0,
+                                backupIntent,
                                 PendingIntent.FLAG_UPDATE_CURRENT))
 
                 // Automatically dismiss the notification when it is touched.
@@ -129,6 +147,7 @@ public class NoteReminderNotification {
             builder.setVibrate(v);
         }
 
+
         notify(context, builder.build());
     }
 
@@ -137,9 +156,13 @@ public class NoteReminderNotification {
         final NotificationManager nm = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
-            nm.notify(NOTIFICATION_TAG, 0, notification);
+            if (nm != null) {
+                nm.notify(NOTIFICATION_TAG, 0, notification);
+            }
         } else {
-            nm.notify(NOTIFICATION_TAG.hashCode(), notification);
+            if (nm != null) {
+                nm.notify(NOTIFICATION_TAG.hashCode(), notification);
+            }
         }
     }
 
@@ -152,9 +175,13 @@ public class NoteReminderNotification {
         final NotificationManager nm = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
-            nm.cancel(NOTIFICATION_TAG, 0);
+            if (nm != null) {
+                nm.cancel(NOTIFICATION_TAG, 0);
+            }
         } else {
-            nm.cancel(NOTIFICATION_TAG.hashCode());
+            if (nm != null) {
+                nm.cancel(NOTIFICATION_TAG.hashCode());
+            }
         }
     }
 }

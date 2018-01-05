@@ -8,6 +8,24 @@
     tools:context="com.jwhh.jim.notekeeper.activity.NoteActivity"
     tools:showIn="@layout/activity_note">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="8dp"
+        android:foregroundGravity="center"
+        android:max="3"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <Spinner
         android:id="@+id/spinner_courses"
         android:layout_width="0dp"
@@ -55,8 +73,8 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="10dp"
-        android:visibility="gone"
         android:text="@string/open_camera"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="@id/text_note_text"
         app:layout_constraintRight_toRightOf="@id/text_note_text"
         app:layout_constraintTop_toBottomOf="@id/text_note_text" />
@@ -68,10 +86,10 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/content_desc"
         android:scaleType="centerCrop"
         android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="@id/btn_attach"
         app:layout_constraintRight_toRightOf="@id/btn_attach"
-        app:layout_constraintTop_toBottomOf="@id/btn_attach"
-        android:contentDescription="@string/content_desc" />
+        app:layout_constraintTop_toBottomOf="@id/btn_attach" />
 </android.support.constraint.ConstraintLayout>
